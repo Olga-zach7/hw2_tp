@@ -93,3 +93,22 @@ class ShoppingList:
         new_list = ShoppingList()
         new_list._items = self._items.copy() + other._items.copy()
         return new_list
+    
+
+class DietaryRecipe(Recipe):
+    def __init__(self, title: str, diet_type: str, ingredients: list = None):
+        super().__init__(title, ingredients)
+        self.diet_type = diet_type
+
+    def scale(self, ratio: float):
+        base = super().scale(ratio)
+        new_recipe = DietaryRecipe(self.title, self.diet_type)
+        new_recipe.ingredients = base.ingredients
+        return new_recipe
+
+    def __str__(self):
+        base_str = super().__str__()
+        lines = base_str.split("\n")
+        lines[0] = f"[{self.diet_type}] {lines[0].replace('Рецепт: ', 'Рецепт: ')}"
+        lines[0] = f"Рецепт: [{self.diet_type}] {self.title}"
+        return "\n".join(lines)
